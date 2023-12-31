@@ -4,10 +4,24 @@
  */
 package edu.ijse.mvc.controller;
 
+import edu.ijse.mvc.dto.CustomerDto;
+import edu.ijse.mvc.model.CustomerModel;
+import java.sql.SQLException;
+
 /**
  *
  * @author anjanathrishakya
  */
 public class CustomerController {
+    
+    private final CustomerModel CUSTOMER_MODEL;
+
+    public CustomerController() throws Exception {
+        this.CUSTOMER_MODEL = new CustomerModel();
+    }
+    
+    public String saveCustomer(CustomerDto customerDto) throws SQLException{
+        return CUSTOMER_MODEL.saveCustomer(customerDto);
+    }
     
 }
