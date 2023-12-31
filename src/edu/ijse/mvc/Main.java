@@ -4,12 +4,14 @@
  */
 package edu.ijse.mvc;
 
+import edu.ijse.mvc.view.CustomerView;
+
 /**
  *
  * @author anjanathrishakya
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello");
+        new CustomerView().setVisible(true);
     }
 }
