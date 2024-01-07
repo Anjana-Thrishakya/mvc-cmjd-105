@@ -9,6 +9,8 @@ import edu.ijse.mvc.dto.CustomerDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 /**
  *
  * @author anjanathrishakya
@@ -48,6 +50,30 @@ public class CustomerModel {
         } else {
             return "Fail";
         }
+    }
+    
+    public ArrayList<CustomerDto> getAllCustomer() throws Exception{
+        String sql = "SELECT * FROM Customer";
+        PreparedStatement statement = CONNECTION.prepareStatement(sql);
+        ResultSet rst = statement.executeQuery();
+        
+        ArrayList<CustomerDto> customerDtos = new ArrayList<>();
+        
+        while (rst.next()) {            
+            CustomerDto dto = new CustomerDto();
+            dto.setId(rst.getString("CustID"));
+            dto.setTitle(rst.getString("CustTitle"));
+            dto.setName(rst.getString("CustName"));
+            dto.setDob(rst.getString("DOB"));
+            dto.setSalary(rst.getDouble("salary"));
+            dto.setAddress(rst.getString("CustAddress"));
+            dto.setCity(rst.getString("City"));
+            dto.setProvince(rst.getString("Province"));
+            dto.setZip(rst.getString("PostalCode"));
+            
+            customerDtos.add(dto);
+        }
+        return customerDtos;
     }
     
 }

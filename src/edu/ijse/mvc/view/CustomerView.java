@@ -7,6 +7,7 @@ package edu.ijse.mvc.view;
 import edu.ijse.mvc.controller.CustomerController;
 import edu.ijse.mvc.dto.CustomerDto;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -296,16 +297,30 @@ public class CustomerView extends javax.swing.JFrame {
     }
     
     private void loadTable(){
-        String [] columns = {"Cust Id", "Cust Name", "Address", "Salary", "Postal Code"};
-        DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+        try {
+            String [] columns = {"Cust Id", "Cust Name", "Address", "Salary", "Postal Code"};
+            DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+                
+            };
+            tblCustomer.setModel(dtm);
             
-        };
-        tblCustomer.setModel(dtm);
-        Object [] rowData = {"C001", "Kamal", "Galle", "100000", "80000"};
-        dtm.addRow(rowData);
+            ArrayList<CustomerDto> customerDtos = CUSTOMER_CONTROLLER.getAllCustomer();
+            for (CustomerDto customerDto : customerDtos) {
+                Object [] rowData = {
+                    customerDto.getId(), 
+                    customerDto.getTitle() + " " + customerDto.getName(),
+                    customerDto.getAddress() + ", " + customerDto.getCity() + ", " + customerDto.getProvince(),
+                    customerDto.getSalary(),
+                    customerDto.getZip()
+                };
+                dtm.addRow(rowData);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
