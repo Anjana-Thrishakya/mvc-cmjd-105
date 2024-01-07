@@ -33,4 +33,8 @@ public class CustomerController {
         return CUSTOMER_MODEL.searchCustomer(custId);
     }
     
+    public String updateCustomer(CustomerDto customerDto) throws Exception {
+        return CUSTOMER_MODEL.updateCustomer(customerDto);
+    }
+    
 }
