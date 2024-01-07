@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -290,9 +291,13 @@ public class CustomerView extends javax.swing.JFrame {
         try {
             String result = CUSTOMER_CONTROLLER.saveCustomer(dto);
             System.out.println(result);
+            JOptionPane.showMessageDialog(this, result);
+            loadTable();
+            cleanForm();
         } catch (SQLException ex) {
             System.out.println("Error");
             Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error at saving Data");
         }
     }
     
@@ -321,6 +326,19 @@ public class CustomerView extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error at loading Customer Data");
         }
+    }
+    
+    public void cleanForm(){
+        txtId.setText("");
+        txtTitle.setText("");
+        txtName.setText("");
+        txtDob.setText("");
+        txtSalary.setText("");
+        txtAddress.setText("");
+        txtCity.setText("");
+        txtProvince.setText("");
+        txtZip.setText("");
     }
 }
