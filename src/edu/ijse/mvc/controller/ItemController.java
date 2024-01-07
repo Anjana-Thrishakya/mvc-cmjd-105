@@ -24,4 +24,8 @@ public class ItemController {
         return resp;
     }
     
+    public ItemDto searchItem(String itemId) throws Exception{
+        return  itemModel.searchItem(itemId);
+    }
+    
 }

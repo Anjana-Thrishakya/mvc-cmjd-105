@@ -6,6 +6,7 @@ package edu.ijse.mvc;
 
 import edu.ijse.mvc.view.CustomerView;
 import edu.ijse.mvc.view.ItemView;
+import edu.ijse.mvc.view.OrderView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 public class Main {
     public static void main(String[] args) {
         try {
-            new CustomerView().setVisible(true);
+            new OrderView().setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
