@@ -29,4 +29,8 @@ public class CustomerController {
         return CUSTOMER_MODEL.getAllCustomer();
     }
     
+    public CustomerDto searchCustomer(String custId) throws Exception{
+        return CUSTOMER_MODEL.searchCustomer(custId);
+    }
+    
 }

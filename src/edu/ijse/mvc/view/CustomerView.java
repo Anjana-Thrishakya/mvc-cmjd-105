@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * @author anjanathrishakya
  */
 public class CustomerView extends javax.swing.JFrame {
-    
+
     private final CustomerController CUSTOMER_CONTROLLER;
 
     /**
@@ -119,6 +119,11 @@ public class CustomerView extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblCustomer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblCustomer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -215,6 +220,10 @@ public class CustomerView extends javax.swing.JFrame {
         saveCustomer();
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void tblCustomerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerMouseClicked
+        searchCustomer();
+    }//GEN-LAST:event_tblCustomerMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -276,7 +285,7 @@ public class CustomerView extends javax.swing.JFrame {
     private javax.swing.JTextField txtTitle;
     private javax.swing.JTextField txtZip;
     // End of variables declaration//GEN-END:variables
-    private void saveCustomer(){
+    private void saveCustomer() {
         CustomerDto dto = new CustomerDto();
         dto.setId(txtId.getText());
         dto.setTitle(txtTitle.getText());
@@ -287,7 +296,7 @@ public class CustomerView extends javax.swing.JFrame {
         dto.setCity(txtCity.getText());
         dto.setProvince(txtProvince.getText());
         dto.setZip(txtZip.getText());
-        
+
         try {
             String result = CUSTOMER_CONTROLLER.saveCustomer(dto);
             System.out.println(result);
@@ -300,23 +309,23 @@ public class CustomerView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error at saving Data");
         }
     }
-    
-    private void loadTable(){
+
+    private void loadTable() {
         try {
-            String [] columns = {"Cust Id", "Cust Name", "Address", "Salary", "Postal Code"};
+            String[] columns = {"Cust Id", "Cust Name", "Address", "Salary", "Postal Code"};
             DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
                     return false;
                 }
-                
+
             };
             tblCustomer.setModel(dtm);
-            
+
             ArrayList<CustomerDto> customerDtos = CUSTOMER_CONTROLLER.getAllCustomer();
             for (CustomerDto customerDto : customerDtos) {
-                Object [] rowData = {
-                    customerDto.getId(), 
+                Object[] rowData = {
+                    customerDto.getId(),
                     customerDto.getTitle() + " " + customerDto.getName(),
                     customerDto.getAddress() + ", " + customerDto.getCity() + ", " + customerDto.getProvince(),
                     customerDto.getSalary(),
@@ -329,8 +338,8 @@ public class CustomerView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error at loading Customer Data");
         }
     }
-    
-    public void cleanForm(){
+
+    public void cleanForm() {
         txtId.setText("");
         txtTitle.setText("");
         txtName.setText("");
@@ -340,5 +349,29 @@ public class CustomerView extends javax.swing.JFrame {
         txtCity.setText("");
         txtProvince.setText("");
         txtZip.setText("");
+    }
+
+    private void searchCustomer() {
+        try {
+            String custId = tblCustomer.getValueAt(tblCustomer.getSelectedRow(), 0).toString();
+            CustomerDto customerDto = CUSTOMER_CONTROLLER.searchCustomer(custId);
+
+            if (customerDto != null) {
+                txtId.setText(customerDto.getId());
+                txtTitle.setText(customerDto.getTitle());
+                txtName.setText(customerDto.getName());
+                txtDob.setText(customerDto.getDob());
+                txtSalary.setText(Double.toString(customerDto.getSalary()));
+                txtAddress.setText(customerDto.getAddress());
+                txtCity.setText(customerDto.getCity());
+                txtProvince.setText(customerDto.getProvince());
+                txtZip.setText(customerDto.getZip());
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer Not Found");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error at loading Customer Data");
+        }
     }
 }
